@@ -114,6 +114,7 @@ function playerDrop(){
     if(collide(arena,player)){
         player.pos.y--;
         merge(arena,player);
+        //update();
         playerReset();
         arenaSweep();
         updateScore();
@@ -165,7 +166,7 @@ function playerRotate(dir){
     rotate(player.matrix , dir);
     while(collide(arena,player)){
         player.pos.x+=offset;
-        offset = -(offset + (offse > 0 ? 1 : -1))
+        offset = -(offset + (offset > 0 ? 1 : -1))
         if(offset>matrix[0].length){
             rotate(player.matrix , -dir);
             player.pos.x = pos;
@@ -200,10 +201,7 @@ function update(time=0){
     const deltaTime = time - lastTime;
     lastTime=time;
     dropCounter += deltaTime;
-    if(dropCounter>dropInterval){
-        player.pos.y++;
-        dropCounter=0;
-    }
+    if(dropCounter>dropInterval) playerDrop();
     //console.log(deltaTime);
     draw();
     requestAnimationFrame(update);
